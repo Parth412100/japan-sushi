@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: umi-sakura-sushi
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
