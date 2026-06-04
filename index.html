@@ -1,0 +1,2713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海桜 - Umi Sakura Sushi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Inspiration&family=Noto+Serif+JP:wght@400;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+/* ═══════════════════════════════════════════════════
+   ROOT & RESET
+   ═══════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink: #0D0B0A;
+  --ink-soft: #1A1513;
+  --crimson: #B83A2A;
+  --crimson-dark: #8C2A1E;
+  --crimson-glow: rgba(184,58,42,0.25);
+  --gold: #D4A853;
+  --gold-light: #E8C87A;
+  --gold-glow: rgba(212,168,83,0.2);
+  --rice: #FFF8EC;
+  --rice-dark: #F5EDDC;
+  --charcoal: #2C2420;
+  --bamboo: #5A7A4A;
+  --warm-light: #FDF6EE;
+  --shadow: rgba(0,0,0,0.3);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  background: var(--ink);
+  color: var(--rice);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════
+   JAPANESE PATTERN OVERLAY
+   ═══════════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 5L61 25L50 45L39 25Z' fill='%23D4A853' fill-opacity='0.03'/%3E%3Cpath d='M50 55L61 75L50 95L39 75Z' fill='%23D4A853' fill-opacity='0.03'/%3E%3Cpath d='M5 25L30 25L50 45L30 65L5 65' fill='%23D4A853' fill-opacity='0.03'/%3E%3Cpath d='M95 25L70 25L50 45L70 65L95 65' fill='%23D4A853' fill-opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--crimson); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ═══════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 20px 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+.header.scrolled {
+  background: rgba(13,11,10,0.88);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  padding: 12px 56px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(212,168,83,0.08);
+}
+
+.logo {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; position: relative;
+}
+
+.logo-mark {
+  width: 48px; height: 48px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  background: radial-gradient(circle at 40% 35%, rgba(212,168,83,0.15), transparent);
+  transition: all 0.4s ease;
+}
+
+.logo-mark::before {
+  content: '';
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,83,0.15);
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.logo-mark span { font-size: 22px; }
+
+.logo:hover .logo-mark { transform: rotate(-15deg); border-color: var(--crimson); }
+
+.logo-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: var(--rice);
+  line-height: 1.1;
+  letter-spacing: 2px;
+}
+
+.logo-text small {
+  display: block;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 10px; font-weight: 300;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.nav { display: flex; gap: 36px; list-style: none; align-items: center; }
+
+.nav a {
+  text-decoration: none;
+  color: rgba(255,248,236,0.65);
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--gold);
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.nav a:hover { color: var(--rice); }
+.nav a:hover::after { width: 100%; }
+
+.header-actions { display: flex; gap: 16px; align-items: center; }
+
+.cart-toggle {
+  position: relative;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(212,168,83,0.15);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--rice);
+}
+
+.cart-toggle:hover {
+  background: rgba(212,168,83,0.15);
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+
+.cart-count {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--crimson);
+  color: white;
+  font-size: 10px; font-weight: 700;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+}
+
+.cart-count.visible { display: flex; }
+
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  width: 26px; height: 1.5px;
+  background: var(--rice);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+  display: block;
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+.hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 140px 56px 80px;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    url('https://images.pexels.com/photos/31393439/pexels-photo-31393439.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2') center/cover no-repeat;
+  filter: brightness(0.35) saturate(1.1);
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+
+.hero:hover .hero-bg { transform: scale(1); }
+
+.hero-bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(13,11,10,0.85) 0%, rgba(13,11,10,0.3) 50%, transparent 100%),
+    linear-gradient(to top, rgba(13,11,10,0.9) 0%, transparent 50%);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 640px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(184,58,42,0.2);
+  border: 1px solid rgba(184,58,42,0.3);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeSlideUp 0.8s 0.2s forwards;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--crimson);
+  border-radius: 50%;
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1.05;
+  color: var(--rice);
+  margin-bottom: 8px;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeSlideUp 0.8s 0.4s forwards;
+  letter-spacing: -1px;
+}
+
+.hero-title-em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.hero-ruby {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,248,236,0.4);
+  letter-spacing: 6px;
+  margin-bottom: 24px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeSlideUp 0.8s 0.5s forwards;
+}
+
+.hero-desc {
+  font-size: 16px; font-weight: 300;
+  color: rgba(255,248,236,0.6);
+  line-height: 1.9;
+  margin-bottom: 36px;
+  max-width: 480px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeSlideUp 0.8s 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeSlideUp 0.8s 0.7s forwards;
+}
+
+@keyframes fadeSlideUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-size: 14px; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  border: none;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn:hover::after { opacity: 1; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  color: white;
+  box-shadow: 0 4px 25px var(--crimson-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px var(--crimson-glow);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #B8923A);
+  color: var(--ink);
+  box-shadow: 0 4px 25px var(--gold-glow);
+}
+
+.btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px var(--gold-glow);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--rice);
+  border: 1.5px solid rgba(255,248,236,0.25);
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* ─── Hero Decorative Elements ─── */
+.hero-deco {
+  position: absolute; z-index: 1;
+  pointer-events: none;
+}
+
+.hero-deco-1 {
+  bottom: 10%; right: 8%;
+  font-size: 14px; color: rgba(212,168,83,0.12);
+  font-family: 'Noto Serif JP', serif;
+  letter-spacing: 8px;
+  writing-mode: vertical-rl;
+  animation: floatText 8s ease-in-out infinite;
+}
+
+.hero-deco-2 {
+  top: 15%; right: 5%;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--crimson-glow), transparent 70%);
+  animation: pulseGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatText {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* ─── Floating Sushi Elements ─── */
+.floating-sushi {
+  position: absolute; z-index: 1;
+  font-size: 48px; opacity: 0.12;
+  animation: floatSushi 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.floating-sushi:nth-child(1) { top: 20%; left: 60%; animation-delay: 0s; font-size: 56px; }
+.floating-sushi:nth-child(2) { top: 50%; right: 12%; animation-delay: -3s; font-size: 40px; }
+.floating-sushi:nth-child(3) { bottom: 25%; left: 55%; animation-delay: -6s; font-size: 48px; }
+.floating-sushi:nth-child(4) { top: 35%; right: 30%; animation-delay: -9s; font-size: 32px; }
+
+@keyframes floatSushi {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  33% { transform: translateY(-25px) rotate(3deg); }
+  66% { transform: translateY(-10px) rotate(-2deg); }
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION COMMON
+   ═══════════════════════════════════════════════════ */
+.section {
+  padding: 120px 56px;
+  position: relative; z-index: 1;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  color: var(--rice);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.section-ruby {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,248,236,0.3);
+  letter-spacing: 4px;
+}
+
+.section-desc {
+  max-width: 520px; margin: 16px auto 0;
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,248,236,0.5);
+  line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════════════
+   FLOATING PARTICLES
+   ═══════════════════════════════════════════════════ */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+.particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  20% { opacity: 0.4; }
+  80% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ═══════════════════════════════════════════════════
+   ABOUT
+   ═══════════════════════════════════════════════════ */
+.about {
+  background: var(--ink-soft);
+  border-top: 1px solid rgba(212,168,83,0.06);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.about-image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.about-image img {
+  width: 100%; display: block;
+  transition: transform 0.8s ease;
+}
+
+.about-image:hover img { transform: scale(1.03); }
+
+.about-image::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,11,10,0.4), transparent);
+}
+
+.about-image-tag {
+  position: absolute; bottom: 20px; left: 20px;
+  z-index: 1;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(13,11,10,0.7);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(212,168,83,0.15);
+}
+
+.about-image-tag span { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+.about-text h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--rice);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.about-text h3 em { color: var(--gold); font-style: italic; }
+
+.about-text p {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,248,236,0.55);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(212,168,83,0.08);
+}
+
+.stat-item { text-align: center; }
+
+.stat-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px; color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,248,236,0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   MENU
+   ═══════════════════════════════════════════════════ */
+.menu {
+  background: var(--ink);
+}
+
+.menu-tabs {
+  display: flex; justify-content: center; gap: 8px;
+  margin-bottom: 48px; flex-wrap: wrap;
+}
+
+.menu-tab {
+  padding: 8px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,248,236,0.1);
+  background: transparent;
+  color: rgba(255,248,236,0.4);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  letter-spacing: 1px;
+}
+
+.menu-tab:hover { border-color: rgba(212,168,83,0.3); color: var(--rice); }
+.menu-tab.active { background: var(--crimson); border-color: var(--crimson); color: white; box-shadow: 0 4px 20px var(--crimson-glow); }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.menu-item {
+  background: rgba(255,248,236,0.03);
+  border: 1px solid rgba(255,248,236,0.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  cursor: pointer;
+  position: relative;
+}
+
+.menu-item:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212,168,83,0.2);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  background: rgba(255,248,236,0.05);
+}
+
+.menu-item-image {
+  width: 100%; padding-bottom: 66%;
+  position: relative; overflow: hidden;
+  background: var(--ink-soft);
+}
+
+.menu-item-image img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.menu-item:hover .menu-item-image img { transform: scale(1.08); }
+
+.menu-item-image::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,11,10,0.4), transparent);
+}
+
+.menu-item-tag {
+  position: absolute; top: 12px; left: 12px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  z-index: 1;
+  font-family: 'DM Serif Display', serif;
+}
+
+.menu-item-tag.popular { background: var(--crimson); color: white; }
+.menu-item-tag.chef { background: var(--gold); color: var(--ink); }
+.menu-item-tag.new { background: var(--bamboo); color: white; }
+.menu-item-tag.limited { background: var(--ink-soft); color: var(--gold); border: 1px solid var(--gold); }
+
+.menu-item-body {
+  padding: 20px 24px 24px;
+}
+
+.menu-item-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; color: var(--rice);
+  margin-bottom: 2px;
+}
+
+.menu-item-name-ruby {
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,248,236,0.3);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.menu-item-desc {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,248,236,0.45);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.menu-item-footer {
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.menu-item-price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: var(--gold);
+}
+
+.menu-item-price small {
+  font-size: 12px; font-weight: 400;
+  color: rgba(255,248,236,0.3);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+.btn-add-item {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--crimson);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-add-item::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-add-item:hover::before { opacity: 1; }
+.btn-add-item:hover { transform: scale(1.1); box-shadow: 0 4px 20px var(--crimson-glow); }
+
+.btn-add-item.added {
+  animation: addPop 0.4s ease;
+  background: var(--bamboo);
+}
+
+@keyframes addPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════
+   GALLERY
+   ═══════════════════════════════════════════════════ */
+.gallery {
+  background: var(--ink-soft);
+  overflow: hidden;
+}
+
+.gallery-track {
+  display: flex; gap: 16px;
+  animation: galleryScroll 30s linear infinite;
+  width: max-content;
+}
+
+.gallery:hover .gallery-track,
+.gallery:focus-within .gallery-track { animation-play-state: paused; }
+
+@keyframes galleryScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.gallery-item {
+  flex: 0 0 280px; height: 200px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.gallery-item:hover img { transform: scale(1.1); }
+
+.gallery-item-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,11,10,0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex; align-items: flex-end;
+  padding: 16px;
+}
+
+.gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+.gallery-item-overlay span {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--rice);
+}
+
+/* ═══════════════════════════════════════════════════
+   CHEF
+   ═══════════════════════════════════════════════════ */
+.chef {
+  background: var(--ink);
+}
+
+.chef-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.chef-image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.chef-image img {
+  width: 100%; display: block;
+}
+
+.chef-image::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(184,58,42,0.1), transparent);
+}
+
+.chef-image-deco {
+  position: absolute; top: -20px; right: -20px;
+  width: 120px; height: 120px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.15;
+}
+
+.chef-text h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--rice);
+  margin-bottom: 4px;
+}
+
+.chef-text .chef-title {
+  font-size: 13px; color: var(--gold);
+  font-weight: 500; letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.chef-text p {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,248,236,0.55);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.chef-signature {
+  font-family: 'Inspiration', cursive;
+  font-size: 36px; color: var(--crimson);
+  margin-top: 24px;
+}
+
+.chef-quote {
+  margin-top: 24px;
+  padding: 20px 24px;
+  border-left: 2px solid var(--gold);
+  background: rgba(212,168,83,0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.chef-quote p {
+  font-size: 14px; font-style: italic;
+  color: rgba(255,248,236,0.6);
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   TESTIMONIALS
+   ═══════════════════════════════════════════════════ */
+.testimonials {
+  background: var(--ink-soft);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(255,248,236,0.03);
+  border: 1px solid rgba(255,248,236,0.06);
+  border-radius: var(--radius);
+  padding: 32px;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(212,168,83,0.15);
+  background: rgba(255,248,236,0.04);
+  transform: translateY(-4px);
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute; top: 12px; right: 20px;
+  font-size: 64px; line-height: 1;
+  color: rgba(212,168,83,0.08);
+  font-family: 'DM Serif Display', serif;
+}
+
+.testimonial-stars {
+  color: var(--gold); font-size: 12px;
+  letter-spacing: 3px; margin-bottom: 16px;
+}
+
+.testimonial-text {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,248,236,0.55);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex; align-items: center; gap: 14px;
+}
+
+.testimonial-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--crimson));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--ink);
+}
+
+.testimonial-name {
+  font-size: 14px; font-weight: 500;
+  color: var(--rice);
+}
+
+.testimonial-name small {
+  display: block; font-size: 11px;
+  font-weight: 300; color: rgba(255,248,236,0.3);
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════
+   CTA BANNER
+   ═══════════════════════════════════════════════════ */
+.cta-banner {
+  background: linear-gradient(135deg, var(--crimson-dark), var(--ink-soft));
+  text-align: center;
+  padding: 100px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 5L61 25L50 45L39 25Z' fill='%23D4A853' fill-opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.cta-banner::after {
+  content: '海桜';
+  position: absolute; bottom: -30px; right: -20px;
+  font-size: 200px; font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  font-family: 'Noto Serif JP', serif;
+  pointer-events: none;
+  letter-spacing: 20px;
+}
+
+.cta-banner h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  color: var(--rice);
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+
+.cta-banner p {
+  font-size: 15px; font-weight: 300;
+  color: rgba(255,248,236,0.5);
+  margin-bottom: 36px;
+  position: relative; z-index: 1;
+}
+
+.cta-banner .btn { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════ */
+.footer {
+  background: var(--ink);
+  padding: 80px 56px 30px;
+  border-top: 1px solid rgba(212,168,83,0.06);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+}
+
+.footer-brand .logo-text { margin-bottom: 16px; display: inline-block; }
+
+.footer-brand p {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,248,236,0.4);
+  line-height: 1.8;
+  max-width: 300px;
+}
+
+.footer-social {
+  display: flex; gap: 12px; margin-top: 20px;
+}
+
+.footer-social a {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,248,236,0.1);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  color: rgba(255,248,236,0.4);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.footer h4 {
+  font-size: 12px; font-weight: 700;
+  color: var(--rice);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer ul { list-style: none; }
+
+.footer ul li { margin-bottom: 10px; }
+
+.footer ul a {
+  color: rgba(255,248,236,0.35);
+  text-decoration: none;
+  font-size: 13px; font-weight: 300;
+  transition: color 0.3s ease;
+}
+
+.footer ul a:hover { color: var(--gold); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,248,236,0.04);
+  padding-top: 24px;
+  text-align: center;
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,248,236,0.25);
+  letter-spacing: 1px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════
+   CART DRAWER
+   ═══════════════════════════════════════════════════ */
+.cart-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(4px);
+}
+
+.cart-overlay.open { opacity: 1; pointer-events: auto; }
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 420px; max-width: 90vw;
+  background: var(--ink-soft);
+  z-index: 2001;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  display: flex; flex-direction: column;
+  border-left: 1px solid rgba(212,168,83,0.1);
+}
+
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 28px;
+  border-bottom: 1px solid rgba(255,248,236,0.06);
+}
+
+.cart-header h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; color: var(--rice);
+}
+
+.cart-header h3 small {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,248,236,0.35);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+.cart-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,248,236,0.1);
+  background: transparent; color: var(--rice);
+  font-size: 16px; cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.cart-close:hover { border-color: var(--crimson); color: var(--crimson); }
+
+.cart-items {
+  flex: 1; overflow-y: auto;
+  padding: 16px 28px;
+}
+
+.cart-empty {
+  text-align: center; padding: 60px 0;
+  color: rgba(255,248,236,0.2);
+}
+
+.cart-empty .cart-empty-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.cart-empty p { font-size: 14px; }
+
+.cart-item {
+  display: flex; gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,248,236,0.04);
+  animation: cartItemSlide 0.3s ease;
+}
+
+@keyframes cartItemSlide {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.cart-item-image {
+  width: 60px; height: 60px;
+  border-radius: 8px; overflow: hidden;
+  flex-shrink: 0;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+
+.cart-item-info { flex: 1; }
+
+.cart-item-name {
+  font-size: 14px; font-weight: 500;
+  color: var(--rice); margin-bottom: 2px;
+}
+
+.cart-item-price {
+  font-size: 13px; color: var(--gold);
+  font-family: 'DM Serif Display', serif;
+}
+
+.cart-item-actions {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 8px;
+}
+
+.cart-qty-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,248,236,0.15);
+  background: transparent; color: var(--rice);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  font-family: 'DM Serif Display', serif;
+}
+
+.cart-qty-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+.cart-qty-btn.remove:hover { border-color: var(--crimson); color: var(--crimson); }
+
+.cart-qty {
+  font-size: 14px; font-weight: 500;
+  color: var(--rice); min-width: 20px; text-align: center;
+}
+
+.cart-item-total {
+  font-size: 14px; font-weight: 500;
+  color: var(--gold);
+  font-family: 'DM Serif Display', serif;
+  min-width: 60px; text-align: right;
+}
+
+.cart-item-remove {
+  background: none; border: none;
+  color: rgba(255,248,236,0.2);
+  cursor: pointer; font-size: 14px;
+  padding: 4px; transition: color 0.3s ease;
+}
+
+.cart-item-remove:hover { color: var(--crimson); }
+
+.cart-footer {
+  padding: 20px 28px 28px;
+  border-top: 1px solid rgba(255,248,236,0.06);
+}
+
+.cart-total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+
+.cart-total-label {
+  font-size: 13px; color: rgba(255,248,236,0.4);
+}
+
+.cart-total-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; color: var(--gold);
+}
+
+.cart-subtotal {
+  font-size: 12px; color: rgba(255,248,236,0.25);
+  text-align: right; margin-bottom: 16px;
+}
+
+.btn-checkout {
+  width: 100%; padding: 16px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+  color: white;
+  font-size: 15px; font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+
+.btn-checkout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--crimson-glow);
+}
+
+/* ═══════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════ */
+.toast-container {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: rgba(13,11,10,0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212,168,83,0.15);
+  color: var(--rice);
+  font-size: 13px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: auto;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+
+.toast-icon { font-size: 16px; }
+
+/* ═══════════════════════════════════════════════════
+   RESERVATION MODAL
+   ═══════════════════════════════════════════════════ */
+.reserve-overlay {
+  position: fixed; inset: 0; z-index: 5000;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+
+.reserve-overlay.open { opacity: 1; pointer-events: auto; }
+
+.reserve-modal {
+  background: var(--ink-soft);
+  border: 1px solid rgba(212,168,83,0.1);
+  border-radius: var(--radius-lg);
+  width: 100%; max-width: 480px;
+  padding: 40px;
+  position: relative;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  max-height: 90vh; overflow-y: auto;
+}
+
+.reserve-overlay.open .reserve-modal { transform: scale(1) translateY(0); }
+
+.reserve-modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,248,236,0.1);
+  background: transparent; color: var(--rice);
+  font-size: 16px; cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.reserve-modal-close:hover { border-color: var(--crimson); color: var(--crimson); }
+
+.reserve-modal h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px; color: var(--rice);
+  margin-bottom: 4px;
+}
+
+.reserve-modal .reserve-subtitle {
+  font-size: 12px; color: rgba(255,248,236,0.35);
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+  display: block; font-size: 12px; font-weight: 500;
+  color: rgba(255,248,236,0.5);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,248,236,0.1);
+  background: rgba(255,248,236,0.03);
+  color: var(--rice);
+  font-size: 14px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+  background: rgba(212,168,83,0.04);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,248,236,0.15);
+}
+
+.form-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: var(--ink-soft);
+  color: var(--rice);
+}
+
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+.btn-reserve-submit {
+  width: 100%; padding: 14px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--gold), #B8923A);
+  color: var(--ink);
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-reserve-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--gold-glow);
+}
+
+.btn-reserve-submit:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none;
+}
+
+.reserve-success {
+  text-align: center; padding: 20px 0;
+  display: none;
+}
+
+.reserve-success.show { display: block; }
+
+.reserve-success .success-icon {
+  font-size: 56px; display: block; margin-bottom: 16px;
+}
+
+.reserve-success h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; color: var(--rice); margin-bottom: 8px;
+}
+
+.reserve-success p {
+  font-size: 13px; color: rgba(255,248,236,0.45);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════
+   MINI GAME - CHOPSTICK CHALLENGE
+   ═══════════════════════════════════════════════════ */
+.game-section {
+  background: var(--ink-soft);
+  text-align: center;
+}
+
+.game-area {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.game-board {
+  background: rgba(255,248,236,0.03);
+  border: 1px solid rgba(212,168,83,0.08);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.game-board::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--gold), var(--crimson), var(--gold), transparent);
+}
+
+.game-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; color: var(--rice);
+  margin-bottom: 4px;
+}
+
+.game-subtitle {
+  font-size: 12px; color: rgba(255,248,236,0.35);
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+
+.game-target {
+  font-size: 64px; margin-bottom: 16px;
+  display: block;
+  animation: gameBounce 1s ease-in-out infinite;
+}
+
+@keyframes gameBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.game-hint {
+  font-size: 14px; color: rgba(255,248,236,0.5);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.game-items {
+  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.game-item {
+  width: 80px; height: 80px;
+  border-radius: var(--radius);
+  background: rgba(255,248,236,0.04);
+  border: 2px solid rgba(255,248,236,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.game-item:hover { border-color: var(--gold); background: rgba(212,168,83,0.08); transform: scale(1.05); }
+.game-item.selected { border-color: var(--crimson); background: rgba(184,58,42,0.1); box-shadow: 0 0 20px var(--crimson-glow); }
+.game-item.correct { border-color: var(--bamboo); background: rgba(90,122,74,0.15); }
+.game-item.wrong { border-color: var(--crimson); background: rgba(184,58,42,0.15); animation: shake 0.4s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.game-score {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--gold);
+  font-family: 'DM Serif Display', serif;
+  margin-bottom: 16px;
+}
+
+.game-score span { font-size: 24px; }
+
+.game-btn {
+  padding: 10px 28px;
+  border-radius: 50px;
+  border: 1px solid rgba(212,168,83,0.2);
+  background: transparent;
+  color: var(--gold);
+  font-size: 13px; cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  letter-spacing: 1px;
+}
+
+.game-btn:hover {
+  background: rgba(212,168,83,0.1);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .header { padding: 16px 32px; }
+  .header.scrolled { padding: 12px 32px; }
+  .section, .hero { padding-left: 32px; padding-right: 32px; }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { gap: 48px; }
+  .chef-grid { gap: 48px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .header { padding: 12px 20px; }
+  .header.scrolled { padding: 10px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .section { padding: 60px 20px; }
+
+  .nav {
+    position: fixed; top: 0; right: -100%;
+    width: 280px; height: 100vh;
+    background: rgba(13,11,10,0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 80px 32px 32px;
+    gap: 20px;
+    transition: right 0.5s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+    border-left: 1px solid rgba(212,168,83,0.08);
+  }
+
+  .nav.open { right: 0; }
+  .nav a { font-size: 14px; }
+  .hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .menu-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .chef-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cta-banner { padding: 60px 20px; }
+  .footer { padding: 40px 20px 24px; }
+  .cart-drawer { width: 100%; max-width: 100vw; }
+  .stat-number { font-size: 28px; }
+  .hero-deco-1 { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 36px; }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .about-stats { grid-template-columns: 1fr; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ PARTICLES ═══════ -->
+<div class="particles" id="particles"></div>
+
+<!-- ═══════ TOAST CONTAINER ═══════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="header" id="header">
+  <a href="#" class="logo">
+    <div class="logo-mark"><span>🍣</span></div>
+    <div class="logo-text">
+      Umi Sakura
+      <small>海桜 · 京都</small>
+    </div>
+  </a>
+
+  <nav class="nav" id="nav">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#chef">Chef</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#game">Game</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="cart-toggle" id="cartToggle" aria-label="Open cart">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-overlay"></div>
+
+  <div class="hero-deco hero-deco-1">極上寿司</div>
+  <div class="hero-deco hero-deco-2"></div>
+
+  <div class="floating-sushi">🍣</div>
+  <div class="floating-sushi">🍱</div>
+  <div class="floating-sushi">🦐</div>
+  <div class="floating-sushi">🍘</div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Now Open in Kyoto</div>
+    <h1 class="hero-title">
+      Where<br>
+      <span class="hero-title-em">Tradition</span><br>
+      Meets Flavor
+    </h1>
+    <div class="hero-ruby">— 伝統と風味の出会い —</div>
+    <p class="hero-desc">
+      Experience Edomae-style sushi crafted by Master Chef Tanaka,
+      using the freshest fish flown in from Toyosu Market daily.
+    </p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-primary">
+        Explore Our Menu
+        <span style="font-size:18px;">→</span>
+      </a>
+      <a href="#about" class="btn btn-outline">Our Story</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section class="section about" id="about">
+  <div class="about-grid">
+    <div class="about-image reveal">
+      <img src="https://images.pexels.com/photos/30996488/pexels-photo-30996488.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=2"
+           alt="Traditional Japanese street with lanterns" loading="lazy">
+      <div class="about-image-tag">
+        <span>📍 Gion District, Kyoto</span>
+      </div>
+    </div>
+    <div class="about-text reveal reveal-delay-2">
+      <div class="section-label" style="justify-content:flex-start;margin-bottom:16px;">
+        <span>Our Story</span>
+      </div>
+      <h3>Crafting <em>Tradition</em><br>Since 1987</h3>
+      <p>
+        Nestled in the historic Gion district of Kyoto, Umi Sakura has been
+        perfecting the art of Edomae-style sushi for over three generations.
+        Our master chefs train for years to master the delicate balance of
+        vinegared rice and the freshest seafood.
+      </p>
+      <p>
+        Every piece of sushi served tells a story — from the carefully aged
+        tuna to the hand-pressed rice that holds its shape with just the
+        right amount of give. We believe in honoring tradition while embracing
+        the finest ingredients Japan has to offer.
+      </p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-number">38</div>
+          <div class="stat-label">Years of Service</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Happy Guests</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">★ 4.9</div>
+          <div class="stat-label">Guest Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MENU ═══════ -->
+<section class="section menu" id="menu">
+  <div class="section-header reveal">
+    <div class="section-label">Artisanal Selection</div>
+    <h2 class="section-title">Our Menu</h2>
+    <div class="section-ruby">— 献立 —</div>
+    <p class="section-desc">Each piece crafted with precision, using the finest ingredients from Japan's best markets.</p>
+  </div>
+
+  <div class="menu-tabs reveal" id="menuTabs">
+    <button class="menu-tab active" data-category="all">All</button>
+    <button class="menu-tab" data-category="nigiri">Nigiri</button>
+    <button class="menu-tab" data-category="maki">Maki</button>
+    <button class="menu-tab" data-category="sashimi">Sashimi</button>
+    <button class="menu-tab" data-category="special">Special</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+    <!-- Nigiri -->
+    <div class="menu-item reveal" data-category="nigiri" data-id="1" data-name="Salmon Nigiri" data-price="580" data-emoji="🍣">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/858501/pexels-photo-858501.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Salmon Nigiri" loading="lazy">
+        <span class="menu-item-tag popular">Popular</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Salmon Nigiri</div>
+        <div class="menu-item-name-ruby">サーモン握り</div>
+        <div class="menu-item-desc">Fresh Atlantic salmon with a light citrus touch, hand-pressed over seasoned rice.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥580 <small>for 2 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="1">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-1" data-category="nigiri" data-id="2" data-name="Tuna Nigiri" data-price="720" data-emoji="🍣">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/7368030/pexels-photo-7368030.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Tuna Sashimi" loading="lazy">
+        <span class="menu-item-tag chef">Chef's Pick</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Tuna Nigiri</div>
+        <div class="menu-item-name-ruby">鮪握り</div>
+        <div class="menu-item-desc">Premium akami tuna aged for 7 days, brushed with our signature soy glaze.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥720 <small>for 2 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="2">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-2" data-category="nigiri" data-id="3" data-name="Ebi Nigiri" data-price="680" data-emoji="🦐">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472651/pexels-photo-8472651.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Ebi Nigiri" loading="lazy">
+        <span class="menu-item-tag new">New</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Ebi Nigiri</div>
+        <div class="menu-item-name-ruby">海老握り</div>
+        <div class="menu-item-desc">Butterfly-cut tiger shrimp, lightly torched and finished with yuzu salt.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥680 <small>for 2 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="3">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maki -->
+    <div class="menu-item reveal" data-category="maki" data-id="4" data-name="Salmon Maki" data-price="480" data-emoji="🍱">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8951558/pexels-photo-8951558.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Maki Rolls" loading="lazy">
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Salmon Maki</div>
+        <div class="menu-item-name-ruby">サーモン巻き</div>
+        <div class="menu-item-desc">Classic salmon roll with cucumber and avocado, wrapped in seasoned nori.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥480 <small>for 6 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="4">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-1" data-category="maki" data-id="5" data-name="Dragon Roll" data-price="980" data-emoji="🐉">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472646/pexels-photo-8472646.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Dragon Roll" loading="lazy">
+        <span class="menu-item-tag popular">Popular</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Dragon Roll</div>
+        <div class="menu-item-name-ruby">ドラゴンロール</div>
+        <div class="menu-item-desc">Tempura shrimp inside, topped with avocado slices and spicy mayo.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥980 <small>for 8 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="5">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-2" data-category="maki" data-id="6" data-name="Rainbow Roll" data-price="1180" data-emoji="🌈">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472644/pexels-photo-8472644.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Rainbow Roll" loading="lazy">
+        <span class="menu-item-tag chef">Chef's Pick</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Rainbow Roll</div>
+        <div class="menu-item-name-ruby">レインボーロール</div>
+        <div class="menu-item-desc">California roll draped with assorted sashimi — tuna, salmon, ebi, and hamachi.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥1,180 <small>for 8 pcs</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal" data-category="sashimi" data-id="7" data-name="Salmon Sashimi" data-price="1280" data-emoji="🐟">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/7368030/pexels-photo-7368030.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Sashimi" loading="lazy">
+        <span class="menu-item-tag limited">Premium</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Salmon Sashimi</div>
+        <div class="menu-item-name-ruby">サーモン刺身</div>
+        <div class="menu-item-desc">8 slices of premium Norwegian salmon, served with daikon and shiso leaf.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥1,280 <small>for 8 slices</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="7">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-1" data-category="sashimi" data-id="8" data-name="Assorted Sashimi" data-price="2480" data-emoji="🐠">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472645/pexels-photo-8472645.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Assorted Sashimi" loading="lazy">
+        <span class="menu-item-tag chef">Omakase</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Assorted Sashimi</div>
+        <div class="menu-item-name-ruby">刺身盛り合わせ</div>
+        <div class="menu-item-desc">Chef's selection of 5 seasonal fish — 12 slices with authentic garnishes.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥2,480 <small>for 12 pcs</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="8">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-2" data-category="sashimi" data-id="9" data-name="Hamachi Sashimi" data-price="1580" data-emoji="🐟">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472647/pexels-photo-8472647.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Hamachi Sashimi" loading="lazy">
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Hamachi Sashimi</div>
+        <div class="menu-item-name-ruby">ハマチ刺身</div>
+        <div class="menu-item-desc">Rich yellowtail from Ehime prefecture, sliced thin with ponzu jelly.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥1,580 <small>for 8 slices</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="9">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special -->
+    <div class="menu-item reveal" data-category="special" data-id="10" data-name="Omakase Set" data-price="5800" data-emoji="🎌">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/8472650/pexels-photo-8472650.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Omakase Set" loading="lazy">
+        <span class="menu-item-tag chef">Omakase</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Omakase Set</div>
+        <div class="menu-item-name-ruby">お任せセット</div>
+        <div class="menu-item-desc">12 pieces of chef's premium selection — the ultimate Edomae experience.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥5,800 <small>per person</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="10">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-1" data-category="special" data-id="11" data-name="Sake Set" data-price="1800" data-emoji="🍶">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/30683018/pexels-photo-30683018.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Sake Tasting Set" loading="lazy">
+        <span class="menu-item-tag new">Pairing</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Sake Tasting Set</div>
+        <div class="menu-item-name-ruby">日本酒テイスティング</div>
+        <div class="menu-item-desc">Three premium sakes selected to complement your meal, with tasting notes.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥1,800 <small>3 glasses</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="11">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item reveal reveal-delay-2" data-category="special" data-id="12" data-name="Matcha Dessert" data-price="680" data-emoji="🍵">
+      <div class="menu-item-image">
+        <img src="https://images.pexels.com/photos/6810811/pexels-photo-6810811.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" alt="Matcha Dessert" loading="lazy">
+        <span class="menu-item-tag popular">Dessert</span>
+      </div>
+      <div class="menu-item-body">
+        <div class="menu-item-name">Matcha Tiramisu</div>
+        <div class="menu-item-name-ruby">抹茶ティラミス</div>
+        <div class="menu-item-desc">Layered matcha mascarpone with housemade red bean. A perfect sweet finish.</div>
+        <div class="menu-item-footer">
+          <div class="menu-item-price">¥680 <small>per serving</small></div>
+          <button class="btn-add-item" onclick="addToCart(this)" data-id="12">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ GALLERY ═══════ -->
+<section class="gallery">
+  <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/858501/pexels-photo-858501.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Salmon nigiri sushi on a wooden plate" loading="lazy">
+      <div class="gallery-item-overlay"><span>Nigiri</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/8951558/pexels-photo-8951558.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Maki rolls with chopsticks" loading="lazy">
+      <div class="gallery-item-overlay"><span>Maki Roll</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/7368030/pexels-photo-7368030.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Fresh salmon sashimi slices" loading="lazy">
+      <div class="gallery-item-overlay"><span>Sashimi</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/13869890/pexels-photo-13869890.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Hand roll temaki sushi" loading="lazy">
+      <div class="gallery-item-overlay"><span>Temaki</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/30996488/pexels-photo-30996488.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Traditional Japanese street with red lanterns at night" loading="lazy">
+      <div class="gallery-item-overlay"><span>Kyoto Street</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/14668360/pexels-photo-14668360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Warm interior of a Japanese restaurant" loading="lazy">
+      <div class="gallery-item-overlay"><span>Restaurant</span></div>
+    </div>
+    <!-- Duplicate for seamless loop -->
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/858501/pexels-photo-858501.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Salmon nigiri sushi on a wooden plate" loading="lazy">
+      <div class="gallery-item-overlay"><span>Nigiri</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/8951558/pexels-photo-8951558.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Maki rolls with chopsticks" loading="lazy">
+      <div class="gallery-item-overlay"><span>Maki Roll</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/7368030/pexels-photo-7368030.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Fresh salmon sashimi slices" loading="lazy">
+      <div class="gallery-item-overlay"><span>Sashimi</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/13869890/pexels-photo-13869890.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Hand roll temaki sushi" loading="lazy">
+      <div class="gallery-item-overlay"><span>Temaki</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/30996488/pexels-photo-30996488.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Traditional Japanese street with red lanterns at night" loading="lazy">
+      <div class="gallery-item-overlay"><span>Kyoto Street</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.pexels.com/photos/14668360/pexels-photo-14668360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=2" alt="Warm interior of a Japanese restaurant" loading="lazy">
+      <div class="gallery-item-overlay"><span>Restaurant</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CHEF ═══════ -->
+<section class="section chef" id="chef">
+  <div class="chef-grid">
+    <div class="chef-image reveal">
+      <div style="width:100%;padding-bottom:120%;background:linear-gradient(135deg,#2C2420,#1A1513);display:flex;align-items:center;justify-content:center;font-size:120px;position:relative;">
+        👨‍🍳
+        <div class="chef-image-deco"></div>
+      </div>
+    </div>
+    <div class="chef-text reveal reveal-delay-2">
+      <div class="section-label" style="justify-content:flex-start;margin-bottom:16px;">
+        <span>Master Chef</span>
+      </div>
+      <h3>Tanaka Hiroshi</h3>
+      <div class="chef-title">第三代目 · 板前長</div>
+      <p>
+        With 35 years of experience behind the counter, Chef Tanaka inherited 
+        the craft from his grandfather who founded Umi Sakura in 1987. Trained 
+        in the strict Edomae tradition, he spent a decade at a three-Michelin-starred 
+        establishment in Ginza before returning to lead the family business.
+      </p>
+      <p>
+        Chef Tanaka personally selects every piece of fish at Toyosu Market 
+        before dawn, ensuring only the finest quality reaches your plate. 
+        His philosophy: "Sushi is not made — it is born from the harmony 
+        between nature and the craftsman's spirit."
+      </p>
+      <div class="chef-quote">
+        <p>"The rice is the soul of sushi. Everything else is a guest."</p>
+      </div>
+      <div class="chef-signature">Tanaka Hiroshi</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section class="section testimonials" id="testimonials">
+  <div class="section-header reveal">
+    <div class="section-label">Guest Voices</div>
+    <h2 class="section-title">What Our Guests Say</h2>
+    <div class="section-ruby">— お客様の声 —</div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">
+        "The omakase experience at Umi Sakura was transcendental. Each piece
+        melted on the tongue. Chef Tanaka's attention to detail is unmatched."
+      </div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">👩</div>
+        <div class="testimonial-name">
+          Sarah L.
+          <small>Food Critic · Michelin Guide</small>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">
+        "I've traveled across Japan for sushi, and Umi Sakura is among the best.
+        The salmon nigiri was the freshest I've ever tasted. Coming back soon!"
+      </div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">👨</div>
+        <div class="testimonial-name">
+          David Chen
+          <small>Travel Blogger · 50 countries</small>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">
+        "Our family has been coming here for 20 years. The quality has never 
+        wavered. This is what authentic Edomae sushi tastes like."
+      </div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">👴</div>
+        <div class="testimonial-name">
+          Yamamoto Kenji
+          <small>Kyoto Local · Regular Guest</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MINI GAME ═══════ -->
+<section class="section game-section" id="game">
+  <div class="section-header reveal">
+    <div class="section-label">Fun Challenge</div>
+    <h2 class="section-title">Chopstick Challenge 🥢</h2>
+    <div class="section-ruby">— Can you pick the right sushi? —</div>
+  </div>
+  <div class="game-area reveal">
+    <div class="game-board" id="gameBoard">
+      <div class="game-title">Find the 🍣</div>
+      <div class="game-subtitle">Click the correct sushi before time runs out!</div>
+      <div class="game-score" id="gameScoreDisplay">
+        Score: <span id="gameScore">0</span>
+      </div>
+      <div style="font-size:12px;color:var(--gold);opacity:0.6;margin-bottom:8px;" id="gameHighScoreDisplay"></div>
+      <div class="game-target" id="gameTarget">🍣</div>
+      <div class="game-hint" id="gameHint">Click the sushi that matches the target!</div>
+      <div class="game-items" id="gameItems"></div>
+      <button class="game-btn" id="gameReset">Play Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA BANNER ═══════ -->
+<section class="cta-banner" id="contact">
+  <h2 class="reveal">Ready for an Unforgettable Meal?</h2>
+  <p class="reveal reveal-delay-1">Reserve your table at Umi Sakura and experience the art of Edomae sushi.</p>
+  <button class="btn btn-gold reveal reveal-delay-2" onclick="openReserveModal()">
+    Reserve Now
+    <span style="font-size:18px;">→</span>
+  </button>
+</section>
+
+<!-- ═══════ RESERVATION MODAL ═══════ -->
+<div class="reserve-overlay" id="reserveOverlay">
+  <div class="reserve-modal" id="reserveModal">
+    <button class="reserve-modal-close" onclick="closeReserveModal()" aria-label="Close">✕</button>
+    <h3>Reserve a Table</h3>
+    <div class="reserve-subtitle">— 予約 —</div>
+
+    <form id="reserveForm" onsubmit="submitReservation(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="resName">Name</label>
+          <input type="text" id="resName" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="resEmail">Email</label>
+          <input type="email" id="resEmail" placeholder="your@email.com" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="resDate">Date</label>
+          <input type="date" id="resDate" required>
+        </div>
+        <div class="form-group">
+          <label for="resTime">Time</label>
+          <input type="time" id="resTime" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="resGuests">Guests</label>
+          <select id="resGuests">
+            <option value="1">1 person</option>
+            <option value="2" selected>2 people</option>
+            <option value="3">3 people</option>
+            <option value="4">4 people</option>
+            <option value="5">5 people</option>
+            <option value="6">6 people</option>
+            <option value="8">8 people</option>
+            <option value="10">10+ people</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="resPhone">Phone</label>
+          <input type="tel" id="resPhone" placeholder="+81 XX-XXXX-XXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="resNotes">Special Requests</label>
+        <textarea id="resNotes" rows="2" placeholder="Allergies, seating preference, occasion..."></textarea>
+      </div>
+      <button type="submit" class="btn-reserve-submit" id="reserveSubmitBtn">
+        Confirm Reservation →
+      </button>
+    </form>
+
+    <div class="reserve-success" id="reserveSuccess">
+      <span class="success-icon">🎉</span>
+      <h4>Reservation Confirmed!</h4>
+      <p>We've received your booking request.<br>You'll receive a confirmation email shortly.<br><br>We look forward to serving you at Umi Sakura.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text" style="font-size:20px;display:inline-block;margin-bottom:12px;">
+        Umi Sakura
+        <small style="display:block;">海桜 · 京都</small>
+      </div>
+      <p>〒370-0127<br>
+      群馬県伊勢崎市境上武士町336<br>
+      坂上建材 付近</p>
+      <div class="footer-social">
+        <a href="https://maps.app.goo.gl/faKLotb7uicbuLgZA" target="_blank" rel="noopener" aria-label="Google Maps">🗺️</a>
+        <a href="#" aria-label="Instagram">📷</a>
+        <a href="#" aria-label="Twitter">𝕏</a>
+      </div>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">Nigiri</a></li>
+        <li><a href="#">Maki Rolls</a></li>
+        <li><a href="#">Sashimi</a></li>
+        <li><a href="#">Omakase</a></li>
+        <li><a href="#">Sake</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">Hours</a></li>
+        <li><a href="#">Reservations</a></li>
+        <li><a href="#">Private Dining</a></li>
+        <li><a href="#">Catering</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+81751234567">+81 75-123-4567</a></li>
+        <li><a href="mailto:info@umisakura.kyoto">info@umisakura.kyoto</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="https://maps.app.goo.gl/faKLotb7uicbuLgZA" target="_blank" rel="noopener">Google Maps</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Umi Sakura Kyoto. All rights reserved. | 海桜
+  </div>
+</footer>
+
+<!-- ═══════ CART OVERLAY ═══════ -->
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- ═══════ CART DRAWER ═══════ -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Order <small id="cartItemCount">(0 items)</small></h3>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <span class="cart-empty-icon">🍣</span>
+      <p>Your cart is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Subtotal</span>
+      <span class="cart-total-value" id="cartSubtotal">¥0</span>
+    </div>
+    <div class="cart-subtotal">Tax & service charge calculated at checkout</div>
+    <button class="btn-checkout" onclick="showToast('🎉 Order placed! Thank you for dining with Umi Sakura.'); closeCart();">
+      Checkout →
+    </button>
+  </div>
+</div>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+// ═══════════════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════════════
+(function initParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+    p.style.animationDuration = (10 + Math.random() * 20) + 's';
+    p.style.animationDelay = (Math.random() * 20) + 's';
+    container.appendChild(p);
+  }
+})();
+
+// ═══════════════════════════════════════════════════
+// HEADER SCROLL
+// ═══════════════════════════════════════════════════
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ═══════════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('active');
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ═══════════════════════════════════════════════════
+// HAMBURGER
+// ═══════════════════════════════════════════════════
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  nav.classList.toggle('open');
+});
+nav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    nav.classList.remove('open');
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// MENU TABS
+// ═══════════════════════════════════════════════════
+const menuTabs = document.querySelectorAll('.menu-tab');
+const menuItems = document.querySelectorAll('.menu-item');
+
+menuTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    menuTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat = tab.dataset.category;
+    menuItems.forEach(item => {
+      if (cat === 'all' || item.dataset.category === cat) {
+        item.style.display = '';
+        item.style.animation = 'none';
+        requestAnimationFrame(() => {
+          item.style.animation = '';
+        });
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// CART SYSTEM
+// ═══════════════════════════════════════════════════
+let cart = JSON.parse(localStorage.getItem('umiSakuraCart')) || [];
+
+function saveCart() {
+  localStorage.setItem('umiSakuraCart', JSON.stringify(cart));
+}
+
+// Menu item data store
+const menuData = {};
+menuItems.forEach(item => {
+  const id = item.dataset.id;
+  if (id) {
+    menuData[id] = {
+      id: parseInt(id),
+      name: item.dataset.name,
+      price: parseInt(item.dataset.price),
+      emoji: item.dataset.emoji || '🍣'
+    };
+  }
+});
+
+function addToCart(btn) {
+  const item = btn.closest('.menu-item');
+  const id = parseInt(item.dataset.id);
+  const data = menuData[id];
+  if (!data) return;
+
+  // Button animation
+  btn.classList.add('added');
+  setTimeout(() => btn.classList.remove('added'), 400);
+
+  const existing = cart.find(c => c.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...data, qty: 1 });
+  }
+  saveCart();
+  updateCartUI();
+  showToast(`🍣 ${data.name} added to cart`);
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const cartCount = document.getElementById('cartCount');
+  cartCount.textContent = count;
+  cartCount.classList.toggle('visible', count > 0);
+  document.getElementById('cartItemCount').textContent = `(${count} items)`;
+  renderCartItems();
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cartItems');
+  const empty = document.getElementById('cartEmpty');
+  const footer = document.getElementById('cartFooter');
+
+  if (cart.length === 0) {
+    container.innerHTML = '';
+    container.appendChild(empty);
+    footer.style.display = 'none';
+    return;
+  }
+
+  empty.remove();
+  footer.style.display = '';
+
+  container.innerHTML = '';
+  cart.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.style.animationDelay = '0s';
+    div.innerHTML = `
+      <div class="cart-item-image">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
+        <div class="cart-item-actions">
+          <button class="cart-qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <span class="cart-qty">${item.qty}</span>
+          <button class="cart-qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div class="cart-item-total">¥${(item.price * item.qty).toLocaleString()}</div>
+        <button class="cart-item-remove" onclick="removeItem(${item.id})">✕</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('cartSubtotal').textContent = `¥${subtotal.toLocaleString()}`;
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) {
+    cart = cart.filter(c => c.id !== id);
+  }
+  saveCart();
+  updateCartUI();
+}
+
+function removeItem(id) {
+  cart = cart.filter(c => c.id !== id);
+  saveCart();
+  updateCartUI();
+  if (cart.length === 0) showToast('Cart is now empty');
+}
+
+// ═══════════════════════════════════════════════════
+// CART DRAWER
+// ═══════════════════════════════════════════════════
+const cartToggle = document.getElementById('cartToggle');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartClose = document.getElementById('cartClose');
+
+function openCart() {
+  cartDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  cartDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+cartToggle.addEventListener('click', openCart);
+cartClose.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+
+// ═══════════════════════════════════════════════════
+// TOAST SYSTEM
+// ═══════════════════════════════════════════════════
+function showToast(message) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  const icon = document.createElement('span');
+  icon.className = 'toast-icon';
+  icon.textContent = '✦';
+  toast.appendChild(icon);
+  toast.appendChild(document.createTextNode(' ' + message));
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 2600);
+}
+
+// ═══════════════════════════════════════════════════
+// RESERVATION MODAL
+// ═══════════════════════════════════════════════════
+function openReserveModal() {
+  document.getElementById('reserveOverlay').classList.add('open');
+  document.getElementById('reserveForm').style.display = '';
+  document.getElementById('reserveSuccess').classList.remove('show');
+  document.getElementById('reserveSubmitBtn').disabled = false;
+  document.getElementById('reserveSubmitBtn').textContent = 'Confirm Reservation →';
+  document.body.style.overflow = 'hidden';
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('resDate').setAttribute('min', today);
+}
+
+function closeReserveModal() {
+  document.getElementById('reserveOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('reserveOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeReserveModal();
+});
+
+async function submitReservation(event) {
+  event.preventDefault();
+  const btn = document.getElementById('reserveSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const data = {
+    name: document.getElementById('resName').value.trim(),
+    email: document.getElementById('resEmail').value.trim(),
+    phone: document.getElementById('resPhone').value.trim(),
+    date: document.getElementById('resDate').value,
+    time: document.getElementById('resTime').value,
+    guests: document.getElementById('resGuests').value,
+    notes: document.getElementById('resNotes').value.trim()
+  };
+
+  try {
+    const res = await fetch('/api/reserve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Server error');
+    document.getElementById('reserveForm').style.display = 'none';
+    document.getElementById('reserveSuccess').classList.add('show');
+    showToast('🎉 Reservation confirmed! Check your email.');
+  } catch (err) {
+    showToast('⚠️ Could not connect to server. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Confirm Reservation →';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// MINI GAME - CHOPSTICK CHALLENGE
+// ═══════════════════════════════════════════════════
+const sushiEmojis = ['🍣', '🍱', '🦐', '🐟', '🥟', '🍘', '🦀', '🐙'];
+let gameScore = 0;
+let currentTarget = '';
+let roundCorrectNeeded = 0;
+let gameTimer = null;
+let timeLeft = 15;
+
+function startGame() {
+  gameScore = 0;
+  timeLeft = 15;
+  document.getElementById('gameScore').textContent = '0';
+  document.getElementById('gameHint').textContent = 'Click the sushi that matches the target!';
+  startRound();
+}
+
+function startRound() {
+  // Adjust time based on score (gets harder)
+  timeLeft = Math.max(5, 15 - Math.floor(gameScore / 3));
+  updateTimerDisplay();
+  clearInterval(gameTimer);
+  gameTimer = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(gameTimer);
+      document.getElementById('gameItems').innerHTML = '';
+      document.getElementById('gameHint').textContent = '⏰ Time\'s up! Final score: ' + gameScore;
+      saveHighScore(gameScore);
+    }
+  }, 1000);
+  newRound();
+}
+
+function updateTimerDisplay() {
+  let el = document.getElementById('gameTimer');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'gameTimer';
+    el.style.cssText = 'font-size:18px;font-weight:700;color:var(--crimson);margin-bottom:12px;font-family:DM Serif Display,serif;';
+    document.getElementById('gameTarget').after(el);
+  }
+  el.textContent = '⏱ ' + timeLeft + 's';
+}
+
+function saveHighScore(score) {
+  const high = parseInt(localStorage.getItem('chopstickHS') || '0');
+  if (score > high) {
+    localStorage.setItem('chopstickHS', score);
+    document.getElementById('gameHighScoreDisplay').textContent = '🏆 High Score: ' + score;
+    showToast('🏆 New high score: ' + score);
+  }
+}
+
+function newRound() {
+  const targetIdx = Math.floor(Math.random() * sushiEmojis.length);
+  currentTarget = sushiEmojis[targetIdx];
+  document.getElementById('gameTarget').textContent = currentTarget;
+
+  const items = document.getElementById('gameItems');
+  items.innerHTML = '';
+
+  roundCorrectNeeded = Math.random() > 0.5 ? 2 : 1;
+  const options = [];
+
+  for (let i = 0; i < roundCorrectNeeded; i++) {
+    options.push(currentTarget);
+  }
+
+  const wrongOptions = sushiEmojis.filter(e => e !== currentTarget);
+  while (options.length < 6) {
+    const r = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+    options.push(r);
+  }
+
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  options.forEach((emoji) => {
+    const btn = document.createElement('button');
+    btn.className = 'game-item';
+    btn.textContent = emoji;
+    btn.addEventListener('click', () => handleGameClick(btn, emoji));
+    items.appendChild(btn);
+  });
+}
+
+function handleGameClick(btn, emoji) {
+  if (btn.classList.contains('selected')) return;
+
+  if (emoji === currentTarget) {
+    btn.classList.add('correct', 'selected');
+    gameScore++;
+    document.getElementById('gameScore').textContent = gameScore;
+    document.getElementById('gameHint').textContent = '🎯 Correct! Keep going!';
+
+    const correctFound = document.querySelectorAll('#gameItems .game-item.correct').length;
+    if (correctFound >= roundCorrectNeeded) {
+      clearInterval(gameTimer);
+      setTimeout(startRound, 800);
+    }
+  } else {
+    btn.classList.add('wrong');
+    gameScore = Math.max(0, gameScore - 1);
+    document.getElementById('gameScore').textContent = gameScore;
+    document.getElementById('gameHint').textContent = '❌ Wrong! -1 point. Try again!';
+    setTimeout(() => btn.classList.remove('wrong'), 400);
+  }
+}
+
+document.getElementById('gameReset').addEventListener('click', startGame);
+
+// ═══════════════════════════════════════════════════
+// SMOOTH ANCHOR SCROLL
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const id = this.getAttribute('href');
+    const target = document.querySelector(id);
+    if (target) {
+      e.preventDefault();
+      const offset = header.offsetHeight + 10;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+updateCartUI();
+// Display high score
+const savedHS = localStorage.getItem('chopstickHS') || '0';
+document.getElementById('gameHighScoreDisplay').textContent = '🏆 High Score: ' + savedHS;
+startGame();
+</script>
+</body>
+</html>

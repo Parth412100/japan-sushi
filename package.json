@@ -1,0 +1,11 @@
+{
+  "name": "umi-sakura-sushi",
+  "version": "1.0.0",
+  "description": "Umi Sakura Sushi Restaurant Website",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
